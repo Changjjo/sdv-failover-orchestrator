@@ -36,3 +36,13 @@ cd k3s
 
 # Check the required Go version in go.mod
 grep "^go " go.mod
+```
+
+### Install Go
+```bash
+wget https://go.dev/dl/go1.21.7.linux-arm64.tar.gz
+
+sudo tar -C /usr/local -xzf go1.21.7.linux-arm64.tar.gz
+
+export PATH=$PATH:/usr/local/go/bin
+```
