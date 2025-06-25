@@ -105,14 +105,14 @@ sudo -E INSTALL_K3S_EXEC="server --v=2 --docker --node-ip=192.168.2.100 --flanne
 server
 Launches K3s in server (control-plane) mode, hosting the API server, controller manager, and scheduler.
 
---v=2
+* v=2
 Sets the log verbosity to level 2, enabling more detailed debug output (useful for troubleshooting).
 
---docker
+* docker
 Tells K3s to use Docker as the container runtime instead of its default (containerd).
 
---node-ip=192.168.2.100
+* node-ip=192.168.2.100
 Forces the node’s advertised IP address to 192.168.2.100 (important when the host has multiple interfaces).
 
---flannel-iface=eth0
+* flannel-iface=eth0
 Specifies that Flannel should bind to the eth0 interface for pod networking (ensuring VXLAN/UDP traffic flows over the correct NIC).
