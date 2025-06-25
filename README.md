@@ -26,3 +26,13 @@ export INSTALL_K3S_SKIP_DOWNLOAD=true
 source ~/.bashrc
 ```
 
+### 🔍 Check Required Go Version
+
+To build K3s, you need a compatible Go version. Check the `go.mod` file in the source root directory to see which version is specified:
+
+```bash
+# Change to the K3s source directory
+cd k3s
+
+# Check the required Go version in go.mod
+grep "^go " go.mod
