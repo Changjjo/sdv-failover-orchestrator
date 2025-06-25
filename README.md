@@ -3,6 +3,7 @@
   width="100%"
 />
 
+# Introduction
 This repository serves as a container orchestrator for future SDV architectures. It provides an ultra-fast failover framework built on the lightweight container orchestrator K3s (compatible with NVIDIA Jetson series) and a Sensor Watchdog Timer mechanism to preserve vehicle applications with near-zero downtime and guarantee occupant safety.
 
 To manage multiple containerized applications, we chose K3s, a lightweight Kubernetes distribution, as our orchestration tool. Each containerized application is assigned an Automotive Safety Integrity Level (ASIL) and deployed on a distributed cluster forming a zonal architecture. Although K3s’s built-in failover can migrate containers when a node fails, its response time alone is insufficient for vehicle systems. Therefore, we propose a failover mechanism that combines a sensor-triggered watchdog with system redundancy. In experiments across various failure scenarios, our system reduced K3s’s default failover delay of over 300 seconds to under 1 second meeting the fault tolerant timing requirements for vehicle safety and demonstrating that container technology can be applied to safety critical automotive systems. We expect this architecture to make a significant contribution to future automotive E/E architecture design.
