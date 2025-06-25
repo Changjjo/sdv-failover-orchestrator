@@ -1,4 +1,15 @@
-![header](https://capsule-render.vercel.app/api?type=wave&color=auto&height=300&section=header&text=Sdv-Failover-Orchestrator&fontSize=60)
+<img
+  src="https://capsule-render.vercel.app/api
+    ?type=wave
+    &color=0A0A23
+    &height=300
+    &section=header
+    &text=Sdv-Failover-Orchestrator
+    &fontSize=60
+    &fontColor=ffffff
+    &textBg=true"
+  width="100%"
+/>
 
 
 This repository serves as a container orchestrator for future SDV architectures. It provides an ultra-fast failover framework built on the lightweight container orchestrator K3s (compatible with NVIDIA Jetson series) and a Sensor Watchdog Timer mechanism to preserve vehicle applications with near-zero downtime and guarantee occupant safety.
