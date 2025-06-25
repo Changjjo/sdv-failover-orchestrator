@@ -93,3 +93,11 @@ export INSTALL_K3S_SKIP_DOWNLOAD=true
 //After editing .bashrc, apply the changes with:
 source ~/.bashrc
 ```
+
+### Install Custom K3s by binary file
+```bash
+sudo cp ./bin/k3s /usr/local/bin/k3s
+
+sudo -E INSTALL_K3S_EXEC="server --v=2 --docker --node-ip=192.168.2.100 --flannel-iface=eth0" \
+        ./install.sh
+```
