@@ -55,17 +55,6 @@ To ensure a successful build, install and use the Go version required by the spe
 + VERSION_GOLANG="go1.21.7"
 ```
 
-### Set Environment Variable to Skip Binary Download
-During the build or manual installation process, K3s may attempt to download its binary from the internet.
-To prevent this (e.g., when using a locally built binary), you can set the following environment variable in your shell configuration
-
-```bash
-export INSTALL_K3S_SKIP_DOWNLOAD=true
-
-//After editing .bashrc, apply the changes with:
-source ~/.bashrc
-```
-
 ### Customizing Core Kubernetes Code
 K3s vendors in core Kubernetes modules (k8s.io/...), so if you need to patch Kubernetes itself, choose one of these methods:
 
@@ -92,4 +81,15 @@ make download
 make generate
 
 SKIP_VALIDATE=true make
+```
+
+### Set Environment Variable to Skip Binary Download
+During the build or manual installation process, K3s may attempt to download its binary from the internet.
+To prevent this (e.g., when using a locally built binary), you can set the following environment variable in your shell configuration
+
+```bash
+export INSTALL_K3S_SKIP_DOWNLOAD=true
+
+//After editing .bashrc, apply the changes with:
+source ~/.bashrc
 ```
