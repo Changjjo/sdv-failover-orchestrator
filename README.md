@@ -66,3 +66,19 @@ export INSTALL_K3S_SKIP_DOWNLOAD=true
 source ~/.bashrc
 ```
 
+### Customizing Core Kubernetes Code
+K3s vendors in core Kubernetes modules (k8s.io/...), so if you need to patch Kubernetes itself, choose one of these methods:
+
+**Use go.mod replace (Recommended)**
+Fork the kubernetes/kubernetes repo on GitHub and apply your changes.
+
+In your K3s project’s go.mod, add a replace directive:
+
+```bash
+require (
+  k8s.io/kubernetes v1.27.11
+  …
+)
+replace k8s.io/kubernetes => github.com/<your-user>/kubernetes v1.27.11
+```
+
