@@ -158,3 +158,20 @@ Kubernetes and K3s are composed of a master node and one or more worker nodes.
 The steps above complete the installation of K3s on the master node.
 To form the same Kubernetes cluster across the worker nodes, K3s must also be installed on each worker node.
 The following section describes how to install K3s on a worker node and connect it to the master node.
+
+### 📁 Copy Kubeconfig to Worker Node
+1. To enable kubectl access on the worker node, copy the K3s kubeconfig file from the master node and set the environment variable:
+```bash
+# On the master node, copy the kubeconfig file to the worker node:
+scp /etc/rancher/k3s/k3s.yaml user@<worker-node-ip>:/home/user/k3s.yaml
+```
+
+2. On the worker node, set the KUBECONFIG environment variable in your shell configuration
+```bash
+export KUBECONFIG=/home/user/k3s.yaml
+```
+
+3. Apply the changes:
+```bash
+source ~/.bashrc
+```
