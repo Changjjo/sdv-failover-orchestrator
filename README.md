@@ -116,3 +116,23 @@ Forces the node’s advertised IP address to 192.168.2.100 (important when the h
 
 * flannel-iface=eth0
 Specifies that Flannel should bind to the eth0 interface for pod networking (ensuring VXLAN/UDP traffic flows over the correct NIC).
+
+### ✅ Verify K3s Installation on the Master Node
+After running the installation script, use the following commands to verify that the K3s server is running correctly:
+
+```bash
+# Check if the k3s service is active and running
+sudo systemctl status k3s
+```
+This command shows whether the k3s systemd service is running properly.
+Look for Active: active (running) to confirm successful startup.
+
+<br>
+```bash
+# View node status and network details
+sudo kubectl get nodes -o wide
+```
+This command checks whether the master node has successfully joined the cluster and is in the Ready state.
+It also displays network information, such as internal/external IP addresses and container runtime.
+
+
