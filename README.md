@@ -1,8 +1,11 @@
 # Sdv-Failover-Orchestrator
 
-This repository documents the process of setting up a Kubernetes cluster using custom-built K3s on a cluster of NVIDIA Jetson Orin devices.
+This repository documents the process of setting up a high-speed failover-optimized Kubernetes cluster on a fleet of NVIDIA Jetson Orin devices by custom-building K3s and integrating a Sensor Watchdog Timer mechanism.  
 
-Unlike standard K3s installation, this setup compiles K3s from source to enable architecture-specific optimizations, support additional features, or apply custom patches for ARM-based Jetson boards. It is particularly useful for robotics, edge AI, or autonomous vehicle projects where lightweight orchestration and fine-grained system control are essential.
+By leveraging K3s—a lightweight container orchestrator designed for future Software-Defined Vehicle (SDV) architectures—and applying a Sensor Watchdog Timer, this architecture preserves vehicle applications with near-zero downtime and guarantees occupant safety through ultra-fast failover.  
+
+Unlike the standard K3s installation, our setup compiles K3s from source to enable ARM-specific optimizations, support additional features, and apply custom patches for Jetson Orin. It is particularly useful for robotics, edge AI, and autonomous vehicle projects where lightweight orchestration and fine-grained system control are essential.
+
 
 ### Clone K3s Source and Checkout Desired Version
 To perform a custom build of K3s, you must first download the source code from the official GitHub repository and switch to the version you want to modify or build.
