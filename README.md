@@ -9,6 +9,7 @@
 
 - [Introduction](#introduction)
 - [Build K3s for Master Node](#build-k3s-for-master-node)
+- [Build K3s for Worker Node](#build-k3s-for-worker-node)
 
 ## Introduction
 This repository serves as a container orchestrator for future SDV architectures. It provides an ultra-fast failover framework built on the lightweight container orchestrator K3s (compatible with NVIDIA Jetson series) and a Sensor Watchdog Timer mechanism to preserve vehicle applications with near-zero downtime and guarantee occupant safety.
@@ -145,4 +146,5 @@ sudo kubectl get nodes -o wide
 This command checks whether the master node has successfully joined the cluster and is in the Ready state.
 It also displays network information, such as internal/external IP addresses and container runtime.
 
+## Build K3s for Worker Node
 
