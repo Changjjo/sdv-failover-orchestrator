@@ -56,3 +56,12 @@ sudo tar -C /usr/local -xzf go1.21.7.linux-arm64.tar.gz
 
 export PATH=$PATH:/usr/local/go/bin
 ```
+### Modify version.sh
+⚠️ K3s must be built with a Go version compatible with the selected K3s release.  
+Using the latest Go version may cause build failures due to incompatibility.  
+To ensure a successful build, install and use the Go version required by the specific K3s release.
+
+```bash
+- VERSION_GOLANG="go"$(curl -sL "${DEPENDENCIES_URL}" | yq e '.dependencies[] | select(.name == "golang: upstream version").version' -)
++ VERSION_GOLANG="go1.21.7"
+```bash
