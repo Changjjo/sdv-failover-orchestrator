@@ -225,3 +225,19 @@ sh -s - --docker --node-name=worker-node2 --node-ip=192.168.2.102
 * node-ip: Specifies the IP address of this worker node.
 
 Make sure you have already copied the custom k3s binary to /usr/local/bin/k3s before running this command.
+
+### Verify K3s Install Success
+After installation, check that the K3s agent is running properly on the worker node:
+```bash
+sudo systemctl status k3s-agent
+```
+This command verifies that the K3s agent service is active and running on the worker node.
+
+<br>
+
+On the master node, run the following to confirm that the worker node has successfully joined the cluster:
+```bash
+sudo kubectl get nodes -o wide
+```
+This lists all nodes in the cluster along with their roles, statuses, internal IPs, and container runtimes.
+The newly joined worker node should appear in the list with a Ready status.
