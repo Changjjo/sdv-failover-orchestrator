@@ -1,5 +1,5 @@
 <img
-  src="https://capsule-render.vercel.app/api?type=wave&color=0A0A23&height=300&section=header&text=Sdv-Failover-Orchestrator&fontSize=60&fontColor=ffffff&textBg=true"
+  src="https://capsule-render.vercel.app/api?type=wave&color=33e9ff&height=300&section=header&text=Sdv-Failover-Orchestrator&fontSize=60&fontColor=fffc33&textBg=true"
   width="100%"
 />
 
