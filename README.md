@@ -128,8 +128,9 @@ This command shows whether the k3s systemd service is running properly.
 Look for Active: active (running) to confirm successful startup.
 
 <br>
+
 ```bash
-//View node status and network details
+# View node status and network details
 sudo kubectl get nodes -o wide
 ```
 This command checks whether the master node has successfully joined the cluster and is in the Ready state.
