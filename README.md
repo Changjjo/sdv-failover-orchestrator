@@ -181,3 +181,30 @@ export KUBECONFIG=/home/user/k3s.yaml
 ```bash
 source ~/.bashrc
 ```
+### Copy K3s Binacy file to Worker Node
+scp k3s/bin/k3s user@<worker-node-ip>:/usr/local/bin
+
+### 🔑 Why is node-token required?
+The node-token file, located at /var/lib/rancher/k3s/server/node-token on the master node, is required to securely join worker nodes to the cluster.
+It acts as an authentication token, allowing the master to verify and accept the joining node.
+
+1. Verify node-token on Master Node
+```bash
+sudo cat /var/lib/rancher/k3s/server/node-token
+
+# e.g. K10696f88f6a4282fad2ff3942d63ad753ee8225ef493e08a7eff113322da6e49be::server:8908eba3e2e7496426964909aa9d7175
+```
+
+2. Install K3s on Worker Node
+```bash
+export INSTALL_K3S_SKIP_DOWNLOAD=true
+source ~/.bashrc
+```
+
+```bash
+INSTALL_K3S_SKIP_DOWNLOAD=true curl -sfL https://get.k3s.io | K3S_URL=https://192.168.2.100:6443 \
+K3S_TOKEN=K10696f88f6a4282fad2ff3942d63ad753ee8225ef493e08a7eff113322da6e49be::server:8908eba3e2e7496426964909aa9d7175 \
+sh -s - --docker --node-name=worker-node2 --node-ip=192.168.2.102
+```bash
+
+3. 
