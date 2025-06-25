@@ -171,7 +171,13 @@ scp /etc/rancher/k3s/k3s.yaml user@<worker-node-ip>:/home/user/k3s.yaml
 export KUBECONFIG=/home/user/k3s.yaml
 ```
 
-3. Apply the changes:
+3. Modify Server Ip Address:
+```bash
+    - server: https://192.0.0.1:6443
+    + server: https://192.168.2.100:6443 # Master Node Ip
+```
+
+5. Apply the changes:
 ```bash
 source ~/.bashrc
 ```
