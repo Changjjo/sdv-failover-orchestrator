@@ -3,7 +3,7 @@
   width="100%"
 />
 
-<img src="./system_architecture.svg" width="600"/>
+<img src="./system_architecture.svg" width="1000"/>
 
 # Introduction
 This repository serves as a container orchestrator for future SDV architectures. It provides an ultra-fast failover framework built on the lightweight container orchestrator K3s (compatible with NVIDIA Jetson series) and a Sensor Watchdog Timer mechanism to preserve vehicle applications with near-zero downtime and guarantee occupant safety.
