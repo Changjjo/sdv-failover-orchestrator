@@ -1,4 +1,4 @@
-# sdv-failover-orchestrator
+# Sdv-Failover-Orchestrator
 
 This repository documents the process of setting up a Kubernetes cluster using custom-built K3s on a cluster of NVIDIA Jetson Orin devices.
 
