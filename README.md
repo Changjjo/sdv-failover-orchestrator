@@ -154,4 +154,7 @@ This command checks whether the master node has successfully joined the cluster 
 It also displays network information, such as internal/external IP addresses and container runtime.
 
 ## Build K3s for Worker Node
-
+Kubernetes and K3s are composed of a master node and one or more worker nodes.
+The steps above complete the installation of K3s on the master node.
+To form the same Kubernetes cluster across the worker nodes, K3s must also be installed on each worker node.
+The following section describes how to install K3s on a worker node and connect it to the master node.
