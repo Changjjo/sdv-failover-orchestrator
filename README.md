@@ -8,6 +8,8 @@ Unlike standard K3s installation, this setup compiles K3s from source to enable 
 To perform a custom build of K3s, you must first download the source code from the official GitHub repository and switch to the version you want to modify or build.
 
 ```bash
-git clone https://github.com/...
-cd project
-make
+git clone https://github.com/k3s-io/k3s.git
+
+cd k3s
+
+git checkout tags/v1.27.11+k3s1
