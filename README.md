@@ -83,3 +83,13 @@ require (
 replace k8s.io/kubernetes => github.com/<your-user>/kubernetes v1.27.11
 ```
 
+### Build K3s
+```bash
+go mod tidy
+
+make download
+
+make generate
+
+SKIP_VALIDATE=true make
+```
