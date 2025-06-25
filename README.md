@@ -8,7 +8,7 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Build K3s](#Build K3s for Master Node)
+- [Build K3s](#build-k3s-for-master-node)
 
 # Introduction
 This repository serves as a container orchestrator for future SDV architectures. It provides an ultra-fast failover framework built on the lightweight container orchestrator K3s (compatible with NVIDIA Jetson series) and a Sensor Watchdog Timer mechanism to preserve vehicle applications with near-zero downtime and guarantee occupant safety.
