@@ -21,4 +21,8 @@ To prevent this (e.g., when using a locally built binary), you can set the follo
 
 ```bash
 export INSTALL_K3S_SKIP_DOWNLOAD=true
+
+//After editing .bashrc, apply the changes with:
+source ~/.bashrc
 ```
+
