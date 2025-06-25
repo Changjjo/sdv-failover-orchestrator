@@ -208,6 +208,20 @@ source ~/.bashrc
 INSTALL_K3S_SKIP_DOWNLOAD=true curl -sfL https://get.k3s.io | K3S_URL=https://192.168.2.100:6443 \
 K3S_TOKEN=K10696f88f6a4282fad2ff3942d63ad753ee8225ef493e08a7eff113322da6e49be::server:8908eba3e2e7496426964909aa9d7175 \
 sh -s - --docker --node-name=worker-node2 --node-ip=192.168.2.102
-```bash
+```
 
-3. 
+#### Explanation of each component:
+
+* INSTALL_K3S_SKIP_DOWNLOAD=true: Prevents the script from downloading the official K3s binary; uses the custom one already installed.
+
+* K3S_URL=https://192.168.2.100:6443: Specifies the master node’s API server address.
+
+* K3S_TOKEN=...: Authentication token obtained from the master node (/var/lib/rancher/k3s/server/node-token).
+
+* docker: Use Docker as the container runtime.
+
+* node-name: Sets the name of this worker node.
+
+* node-ip: Specifies the IP address of this worker node.
+
+Make sure you have already copied the custom k3s binary to /usr/local/bin/k3s before running this command.
