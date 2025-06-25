@@ -146,5 +146,10 @@ sudo kubectl get nodes -o wide
 This command checks whether the master node has successfully joined the cluster and is in the Ready state.
 It also displays network information, such as internal/external IP addresses and container runtime.
 
+### Add K3s Configuration
+```bash
+export KUBECONFIG=/home/avees/k3s.yaml
+source ~/.bashrc
+```
 ## Build K3s for Worker Node
 
