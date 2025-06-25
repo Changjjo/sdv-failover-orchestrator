@@ -53,7 +53,7 @@ To ensure a successful build, install and use the Go version required by the spe
 ```bash
 - VERSION_GOLANG="go"$(curl -sL "${DEPENDENCIES_URL}" | yq e '.dependencies[] | select(.name == "golang: upstream version").version' -)
 + VERSION_GOLANG="go1.21.7"
-```bash
+```
 
 ### Set Environment Variable to Skip Binary Download
 During the build or manual installation process, K3s may attempt to download its binary from the internet.
