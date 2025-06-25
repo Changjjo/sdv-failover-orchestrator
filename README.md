@@ -13,3 +13,10 @@ git clone https://github.com/k3s-io/k3s.git
 cd k3s
 
 git checkout tags/v1.27.11+k3s1
+
+### Set Environment Variable to Skip Binary Download
+During the build or manual installation process, K3s may attempt to download its binary from the internet.
+To prevent this (e.g., when using a locally built binary), you can set the following environment variable in your shell configuration
+
+```bash
+export INSTALL_K3S_SKIP_DOWNLOAD=true
