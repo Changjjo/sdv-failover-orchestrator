@@ -181,8 +181,11 @@ export KUBECONFIG=/home/user/k3s.yaml
 ```bash
 source ~/.bashrc
 ```
-### Copy K3s Binacy file to Worker Node
+### 📁 Transfer K3s Binacy file to Worker Node
+Copy the custom-built K3s binary from the master node to the worker node:
+```bash
 scp k3s/bin/k3s user@<worker-node-ip>:/usr/local/bin
+```
 
 ### 🔑 Why is node-token required?
 The node-token file, located at /var/lib/rancher/k3s/server/node-token on the master node, is required to securely join worker nodes to the cluster.
