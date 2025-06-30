@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: new-pose-estimation
+  labels:
+    app: pose-estimation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pose-estimation
+  template:
+    metadata:
+      labels:
+        app: pose-estimation
+    spec:
+      hostNetwork: true
+      terminationGracePeriodSeconds: 5
+      nodeSelector:
+        kubernetes.io/hostname: worker-node1
+      containers:
+      - name: pose-estimation-new-container
+        image: aveeslab/new_pose:v2
+        imagePullPolicy: Never
+        command: ["/bin/bash", "-c"]
+        args:
+          - |
+            export ROS_DOMAIN_ID=102 && \
+            source ~/.bashrc && \
+            source install/setup.bash && \
+            ros2 run mediapipe_pose mediapipe_pose_node
+        env:
+        - name: DISPLAY
+          value: ":0"
+        - name: ROS_DOMAIN_ID
+          value: "102"    
+        volumeMounts:
+        - mountPath: /tmp/.X11-unix
+          name: x11-socket
+          readOnly: false
+      tolerations:
+      - key: node.kubernetes.io/not-ready
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: 5   
+      - key: node.kubernetes.io/unreachable
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: 5          
+      volumes:
+      - name: x11-socket
+        hostPath:
+          path: /tmp/.X11-unix
+          type: Directory
+

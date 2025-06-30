@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-test-deployment
+  labels:
+    app: cluster-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cluster-test
+  template:
+    metadata:
+      labels:
+        app: cluster-test
+    spec:
+      hostNetwork: true
+      terminationGracePeriodSeconds: 5
+      containers:
+      - name: cluster-test-container
+        image: aveeslab/cluster_test:latest
+        imagePullPolicy: Never
+        command: ["python3", "test.py"]
+        args: ["-c"]
+        env:
+        - name: DISPLAY
+          value: ":0"
+        volumeMounts:
+        - mountPath: /tmp/.X11-unix
+          name: x11-socket
+          readOnly: false
+      nodeSelector:  # 노드 선택자 추가
+        kubernetes.io/hostname: worker-node3
+      tolerations:  # 허용 설정 추가
+      - key: node.kubernetes.io/not-ready
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: 5   
+      - key: node.kubernetes.io/unreachable
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: 5
+      volumes:
+      - name: x11-socket
+        hostPath:
+          path: /tmp/.X11-unix
+          type: Directory
+
+

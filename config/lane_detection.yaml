@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lane-detection-original
+  labels:
+    app: lane-detection
+    role: original
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lane-detection
+      role: original
+  template:
+    metadata:
+      labels:
+        app: lane-detection
+        role: original
+    spec:
+      hostNetwork: true
+      terminationGracePeriodSeconds: 5
+      nodeSelector:
+        kubernetes.io/hostname: worker-node2
+#      affinity:
+#        nodeAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#            nodeSelectorTerms:
+#            - matchExpressions:d
+#              - key: worker-group
+#                operator: In
+#                values:
+#                - lane_detection
+#          preferredDuringSchedulingIgnoredDuringExecution:
+#          - weight: 50
+#            preference:
+#              matchExpressions:
+#              - key: kubernetes.io/hostname
+#                operator: In
+#                values:
+#                - worker-node2
+#          - weight: 100
+#            preference:
+#              matchExpressions:
+#              - key: kubernetes.io/hostname
+#                operator: In
+#                values:
+#                - worker-node3
+      containers:
+      - name: lane-detection-container
+        image: aveeslab/lane_detection:v7
+        imagePullPolicy: Never
+        command: ["/bin/bash", "-c"]
+        args:
+          - |
+            source ~/.bashrc && \
+            source install/setup.bash && \
+            ros2 launch lane_detection lane_detection_launch.py
+        env:
+        - name: DISPLAY
+          value: ":0"
+        volumeMounts:
+        - mountPath: /tmp/.X11-unix
+          name: x11-socket
+          readOnly: false
+      tolerations:
+      - key: node.kubernetes.io/not-ready
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: 5   
+      - key: node.kubernetes.io/unreachable
+        operator: Exists
+        effect: NoExecute
+        tolerationSeconds: 5          
+      volumes:
+      - name: x11-socket
+        hostPath:
+          path: /tmp/.X11-unix
+          type: Directory
+
