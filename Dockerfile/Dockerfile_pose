@@ -1,0 +1,115 @@
+FROM nvcr.io/nvidia/l4t-base:35.3.1
+# 35.3.1만 r35.2.1 처럼 r이 없음
+
+# NVIDIA L4T 리포지토리 설정
+RUN echo "deb https://repo.download.nvidia.com/jetson/common r35.2 main" > /etc/apt/sources.list.d/nvidia-l4t-apt-source.list && \
+    echo "deb https://repo.download.nvidia.com/jetson/t194 r35.2 main" >> /etc/apt/sources.list.d/nvidia-l4t-apt-source.list
+
+# --- INSTALL ROS2 FOXY ---
+RUN apt update && apt install -y curl gnupg lsb-release && \
+    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add - && \
+    sh -c 'echo "deb http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2-latest.list' && \
+    apt update && \
+    apt install -y ros-foxy-desktop && \
+    apt install -y python3-rosdep python3-colcon-common-extensions && \
+    rosdep init && \
+    rosdep update && \
+    echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc && \
+    apt install -y build-essential cmake python3-colcon-common-extensions
+    
+# --- INSTALL CUDA ---
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    cuda-toolkit-11-4 \
+    libcudnn8=8.6.0.166-1+cuda11.4 \
+    libnvinfer8=8.5.2-1+cuda11.4 \
+    libnvinfer-dev=8.5.2-1+cuda11.4 \
+    libnvinfer-plugin8=8.5.2-1+cuda11.4 && \
+    rm -rf /var/lib/apt/lists/*
+    
+ENV PATH="/usr/local/cuda/bin:${PATH}"
+ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
+
+# --- Vimba SDK 설치 ---
+# 1) Vimba tar 파일 복사 (호스트에서 -> 컨테이너 내부 /home/ 로)
+COPY ./Vimba_v6.0_ARM64.tgz /home/
+
+# 2) 압축 해제 + Install.sh 실행
+RUN tar -xzf /home/Vimba_v6.0_ARM64.tgz -C /opt && \
+    cd /opt/Vimba_6_0/VimbaGigETL && \
+    ./Install.sh
+
+# --- ROS 작업공간: pose_estimation ---
+# 1) 작업 디렉터리 생성/설정
+RUN mkdir -p /home/pose_estimation
+WORKDIR /home/pose_estimation
+
+# 2) 소스 복사
+COPY ./src /home/pose_estimation/src/
+
+# 3) 의존성 설치
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    ros-foxy-vision-msgs \
+    ros-foxy-diagnostic-updater \
+    ros-foxy-camera-info-manager \
+    python3-colcon-common-extensions \
+    x11-apps && \
+    rm -rf /var/lib/apt/lists/*
+
+
+# --- jetson inference 관련 추가 종속성 설치 ---
+COPY /usr/lib/aarch64-linux-gnu/libgstwebrtc-1.0.so.0 /usr/lib/aarch64-linux-gnu/
+COPY /lib/aarch64-linux-gnu/libnice.so.10 /lib/aarch64-linux-gnu/
+COPY /lib/aarch64-linux-gnu/libgio-2.0.so.0 /lib/aarch64-linux-gnu/
+COPY /lib/aarch64-linux-gnu/libglib-2.0.so.0 /lib/aarch64-linux-gnu/
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgstreamer1.0-dev \
+    libgstreamer-plugins-base1.0-dev \
+    libgstreamer-plugins-good1.0-dev \
+    libgstreamer-plugins-bad1.0-dev \
+    gstreamer1.0-tools \
+    libnvinfer-dev \
+    libopencv-dev \
+    ffmpeg \
+    libjpeg-dev \
+    libpng-dev \
+    libavcodec-dev \
+    libavformat-dev \
+    libavutil-dev \
+    python3 \
+    python3-pip \
+    python3-dev \
+    python3-libnvinfer \
+    cmake \
+    build-essential \
+    ninja-build && \
+    rm -rf /var/lib/apt/lists/*
+    
+# --- install jetson inference & jetson utils ---
+RUN mkdir /home/jetson-inference
+COPY jetson-inference/ /home/jetson-inference/
+
+RUN ls -l /home && ls -l /home/jetson-inference
+
+RUN cd /home/jetson-inference && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make -j$(nproc) && \
+    make install && \
+    ldconfig
+
+# --- 환경 변수 & EntryPoint ---
+ENV ROS_DOMAIN_ID=102
+ENV DISPLAY=:0
+ENV ROS_SETUP="/opt/ros/foxy/setup.bash"
+ENV POSE_SETUP="/home/pose_estimation/install/setup.bash"
+VOLUME ["/tmp/.X11-unix"]
+
+# --- Pose Estimation ROS Application 빌드
+RUN /bin/bash -c "source /opt/ros/foxy/setup.bash && colcon build"
+
+CMD ["/bin/bash", "-c", "source $ROS_SETUP && source $POSE_SETUP && exec bash"]
+
